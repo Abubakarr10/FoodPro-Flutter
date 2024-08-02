@@ -14,6 +14,8 @@ const String noodlesImage = 'assets/images/chinese_noodles.png';
 const String emptyCartImage = 'assets/images/empty-cart.png';
 const String soldOutImage = 'assets/images/out-of-stock.png';
 const String noResultImage = 'assets/images/no-results.png';
+const String foodBgImage = 'assets/images/food_bg.jpeg';
+const String foodLogoImage = 'assets/images/playstore.png';
 
 
 

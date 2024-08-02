@@ -9,8 +9,21 @@ import '../../boxes/boxes.dart';
 class CartController extends GetxController{
 
 
+  // ignore: prefer_typing_uninitialized_variables
+  var data;
   RxDouble totalAmount = RxDouble(0);
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    data = getFoodData();
+    var foodData = data.values.toList().cast<FoodModel>();
+    if (kDebugMode) {
+      print('GetFoodData => $foodData');
+      print('GetFoodData Length => ${getFoodData().length}');
+    }
+  }
 
   // Function: Add Amount to Total
   void addToTotalAmount(var data){
@@ -39,8 +52,6 @@ class CartController extends GetxController{
 
     //await foodModel.delete();
     await box.deleteAt(index);
-
-    // FoodDetailService().itemsInCart.value = boxLength;
 
     if (kDebugMode) {
       print('Items in Cart => $boxLength');

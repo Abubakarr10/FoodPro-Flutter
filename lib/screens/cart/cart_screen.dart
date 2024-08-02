@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_pro/boxes/boxes.dart';
+import 'package:food_pro/constant/images.dart';
+import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/model/food_model.dart';
 import 'package:food_pro/screens/cart/CartController.dart';
 import 'package:food_pro/screens/cart/widget/empty_cart_widget.dart';
@@ -20,10 +22,9 @@ class CartScreen extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     Get.put(CartController());
-    //TODO: Move to GetX Service
     FoodDetailService fdController = Get.find();
     return SizedBox(
-      child:  fdController.itemsInCart.value != 0?
+      child:  controller.data.length != 0.0?
       Scaffold(
         body: SafeArea(
           child: Padding(
@@ -66,18 +67,15 @@ class CartScreen extends GetView<CartController> {
                   child: ValueListenableBuilder<Box<FoodModel>>(
                     valueListenable: getFoodData().listenable(),
                     builder: (context,box,_){
-                      var data = box.values.toList().cast<FoodModel>();
-                    //  controller.addToTotalAmount(data);
+                      var data = controller.data.values.toList().cast<FoodModel>();
                       controller.totalAmount.value = data.fold(
                         0,
                             (previousValue, element) =>
                         previousValue + (double.parse(element.price) * element.quantity),
                       );
-                      if (kDebugMode) {
-                        print('Box Length => ${box.length}');
-                      }
-                      return ListView.builder(
-                          itemCount: box.length,
+
+                      return controller.data.length != 0? ListView.builder(
+                          itemCount: data.length,
                           itemBuilder: (context,index){
                             return ItemCardWidget(
                                 name: data.elementAt(index).name,
@@ -85,19 +83,66 @@ class CartScreen extends GetView<CartController> {
                                 quantity: data.elementAt(index).quantity.toString(),
                                 image: data.elementAt(index).image,
                               removeOnTap: (){
-                                handleRemoveItem(controller,index);
-                                fdController.itemsInCart.value = box.length;
+                                  if(data.length == 1){
+                                    handleRemoveItem(controller,index);
+                                    fdController.itemsInCart.value = box.length;
+                                    Get.back();
+                                  }else {
+                                    handleRemoveItem(controller, index);
+                                    fdController.itemsInCart.value = box.length;
 
-                                if (kDebugMode) {
-                                  print('FD Cart Items ==>${fdController.itemsInCart.value}');
-                                }
-
+                                    if (kDebugMode) {
+                                      print('FD Cart Items ==>${fdController
+                                          .itemsInCart.value}');
+                                    }
+                                  }
                               },
                             );
-                          });
+                          }) : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(emptyCartImage),
+                          Text('Your Cart is Empty :(',style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: fontX*.024
+                          ),)
+                        ],
+                      );
                     },
                   ),
                 ),
+
+                // Flexible(
+                //   flex: 8,
+                //   child: ListView.builder(
+                //       itemCount: controller.data.length,
+                //       itemBuilder: (context,index){
+                //         if (kDebugMode) {
+                //           print('CartScreen length => ${controller.data.length}');
+                //         }
+                //         var data = controller.data.values.toList().cast<FoodModel>();
+                //         controller.totalAmount.value = data.fold(
+                //           0,
+                //               (previousValue, element) =>
+                //           previousValue + (double.parse(element.price) * element.quantity),
+                //         );
+                //         return ItemCardWidget(
+                //           name: data.elementAt(index).name,
+                //           price: data.elementAt(index).price.toString(),
+                //           quantity: data.elementAt(index).quantity.toString(),
+                //           image: data.elementAt(index).image,
+                //           removeOnTap: (){
+                //             handleRemoveItem(controller,index);
+                //             fdController.itemsInCart.value = data.length;
+                //             if (kDebugMode) {
+                //               print('FD Cart Items ==>${fdController.itemsInCart.value}');
+                //             }
+                //
+                //           },
+                //         );
+                //       }),
+                // ),
+
 
                 Flexible(
                   flex: 2,
@@ -119,7 +164,7 @@ class CartScreen extends GetView<CartController> {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ListTile(
                               onTap: (){
-                                Get.to(()=> const PaymentScreen());
+                                Get.toNamed(paymentScreen);
                               },
                               title: Text('Choose Payment Method',style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: fontX*.020,
@@ -144,10 +189,12 @@ class CartScreen extends GetView<CartController> {
                                       fontWeight: FontWeight.w700, fontSize: fontX*.022,
                                         color: Colors.amber
                                     ),),
-                                    Obx(()=> Text(controller.totalAmount.toString(),
+                                    Obx(()=>
+                                        Text(controller.totalAmount.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600, fontSize: fontX*.022,
-                                      ),),)
+                                      ),),),
+
                                   ],
                                 ),
                               ],
@@ -174,6 +221,8 @@ class CartScreen extends GetView<CartController> {
 
               snackBarWidget('Yes!', 'Your order is placed Successfully',
                 position: SnackPosition.TOP);
+
+              fdController.itemsInCart.value = 0;
 
               Get.off(()=> const HomeScreen());
 

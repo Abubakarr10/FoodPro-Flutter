@@ -1,22 +1,24 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
+import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/model/food_model.dart';
-import 'package:food_pro/screens/cart/cart_screen.dart';
 import 'package:food_pro/screens/food_detail/FoodDetailService.dart';
 import 'package:food_pro/screens/food_detail/widgets/food_info_widget.dart';
 import 'package:food_pro/widgets/add_button_widget.dart';
 import 'package:get/get.dart';
 
 class FoodDetailScreen extends GetView<FoodDetailService> {
-  final FoodModel foodData;
-  const FoodDetailScreen({super.key, required this.foodData});
+  const FoodDetailScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
     Get.put(FoodDetailService());
+    FoodModel foodData = Get.arguments;
+    controller.checkFavItem(foodData);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,7 +37,7 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.back();
+                        Get.offNamed(homeScreen);
                         controller.qty.value = 1;
                       },
                       child: Icon(
@@ -46,10 +48,11 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                     const Spacer(),
                     GestureDetector(
                         onTap: (){
-                          Get.to(()=> const CartScreen());
+                          Get.toNamed(cartScreen);
                           controller.qty.value = 1;
                         },
-                        child: Obx(()=> SizedBox(
+                        child: Obx(()=>
+                            SizedBox(
                           child: controller.itemsInCart.value != 0? Badge(
                               offset: const Offset(7, -5),
                               backgroundColor: mainColor,
@@ -61,17 +64,21 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                                 size: heightX*.03,)) :
                            Icon(Icons.shopping_cart_outlined, size: heightX*.03,)
                           ,
-                        ))),
+                        )
+                        )),
                     const SizedBox(width: 10,),
 
                     Obx(()=>
                         GestureDetector(
                           onTap: (){
                             controller.isFavourite.value = !controller.isFavourite.value;
-                            controller.checkFavItem(foodData);
                             controller.actionFavList(foodData);
+                            if (kDebugMode) {
+                              print('check Favourite => ${controller.checkFavItem(foodData)}');
+                              print('isFavourite => ${controller.isFavourite.value}');
+                            }
                           },
-                          child: controller.checkFavItem(foodData) == true? Icon(
+                          child:  controller.checkFavItem(foodData) ==  true? Icon(
                             Icons.favorite,
                             size: heightX*.03,
                             color: Colors.red,
@@ -83,6 +90,7 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                           ),
                         )
                     ),
+
                   ],
                 ),
                 SizedBox(

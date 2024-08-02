@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/widgets/snackbar_widget.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 import '../../boxes/boxes.dart';
 import '../../constant/food_list.dart';
@@ -14,15 +14,16 @@ class FoodDetailService extends GetxService{
 
   RxBool isFavourite = false.obs;
   RxInt qty = RxInt(1);
-  RxInt itemsInCart = RxInt(0);
+  late RxInt itemsInCart = getFoodData().length.obs;
   RxList<FoodModel> favFoodList = RxList([]);
 
-  Future<FoodDetailService> init() async {
+  var favBox = getFavData().values.obs;
 
-   getFoodData();
-   // itemsInCart.value = box.length;
-
-    return this;
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    itemsInCart.value = getFoodData().length;
+    super.onInit();
   }
 
   void decrement(){
@@ -37,12 +38,15 @@ class FoodDetailService extends GetxService{
     }
   }
 
+
+  // >>>>>>>>>>>>>> Favourite <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
   bool checkFavItem(FoodModel foodData){
 
-    if(favFoodList.contains(foodData)){
-      if (kDebugMode) {
-        print("Yes that's TRUE");
-      }
+
+    if(isFavourite.value == true || favBox.value.contains(foodData)){
+      if (kDebugMode) {print("Yes that's TRUE");}
       return true;
     }else{
       false;
@@ -53,33 +57,56 @@ class FoodDetailService extends GetxService{
   // Function: To mark Item as Fav or remove from fav
   void actionFavList(FoodModel foodData){
 
-    if(isFavourite.value == true){
-      addToFavouriteList(foodData);
-    }else{
+    if(isFavourite.value == false && favBox.value.contains(foodData)){
       removeFromFavouriteList(foodData);
+    } else{
+      addToFavouriteList(foodData);
     }
   }
 
   // Function: Add Item to Fav List
-  void addToFavouriteList(FoodModel foodData){
-    favFoodList.add(foodData);
+  void addToFavouriteList(FoodModel foodData)async{
 
-    snackBarWidget('My Lovely Food!', 'Added to Favourite List',
-    textColor: pureBlack, bgColor: mainColor
+    var box =  getFavData();
+
+    if(favBox.value.contains(foodData)){
+      if (kDebugMode) {
+        print('That item already exit in Fav Box');
+      }
+    }else{
+    await box.add(foodData);
+    await foodData.save();
+
+    Fluttertoast.showToast(msg: 'Added to Favourite ❤️',
+    backgroundColor: mainColor,
+      textColor: pureBlack,
+      gravity: ToastGravity.TOP
     );
 
     if (kDebugMode) {
-      print('FoodList => $favFoodList');
+      print('FoodList => ${getFavData().values.toList()}');
+    }
     }
   }
 
   // Function: Remove Item from fav List
-  void removeFromFavouriteList(FoodModel foodData){
-    favFoodList.remove(foodData);
-    if (kDebugMode) {
-      print('FoodList => $favFoodList');
-    }
+  void removeFromFavouriteList(FoodModel foodData)async{
+
+    var favBox = getFavData();
+
+    int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
+    await favBox.deleteAt(index);
+
+    Fluttertoast.showToast(msg: 'Remove Favourite 💔',
+        backgroundColor: pureBlack,
+        textColor: mainColor,
+        gravity: ToastGravity.TOP
+    );
+
+    if (kDebugMode) {print('FoodList => ${getFavData().values.toList()}');}
   }
+
+  // >>>>>>>>>>>>>> Add To Cart <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   // Function: Add Item to Cart
   Future<void> addToCart(FoodModel foodData)async{
@@ -116,10 +143,6 @@ class FoodDetailService extends GetxService{
         await cartData.save();
 
         itemsInCart.value = box.length;
-
-      //   if (kDebugMode) {
-      //     print('ItemsInCart value => ${itemsInCart.value}');
-      //   }
 
         snackBarWidget('Successfully Added',
             '${foodData.name.toString()} added to your cart');
