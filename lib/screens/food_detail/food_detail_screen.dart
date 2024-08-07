@@ -229,14 +229,12 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
           ),
         ),
       ),
-      floatingActionButton: InkWell(
-        onTap: (){
+      floatingActionButton: AddButtonWidget(
+        height: heightX*.065,
+        width: heightX*.065,
+        onTap: () {
           controller.addToCart(foodData);
         },
-        child:  AddButtonWidget(
-          height: heightX*.065,
-          width: heightX*.065,
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

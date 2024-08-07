@@ -112,48 +112,16 @@ class CartScreen extends GetView<CartController> {
                   ),
                 ),
 
-                // Flexible(
-                //   flex: 8,
-                //   child: ListView.builder(
-                //       itemCount: controller.data.length,
-                //       itemBuilder: (context,index){
-                //         if (kDebugMode) {
-                //           print('CartScreen length => ${controller.data.length}');
-                //         }
-                //         var data = controller.data.values.toList().cast<FoodModel>();
-                //         controller.totalAmount.value = data.fold(
-                //           0,
-                //               (previousValue, element) =>
-                //           previousValue + (double.parse(element.price) * element.quantity),
-                //         );
-                //         return ItemCardWidget(
-                //           name: data.elementAt(index).name,
-                //           price: data.elementAt(index).price.toString(),
-                //           quantity: data.elementAt(index).quantity.toString(),
-                //           image: data.elementAt(index).image,
-                //           removeOnTap: (){
-                //             handleRemoveItem(controller,index);
-                //             fdController.itemsInCart.value = data.length;
-                //             if (kDebugMode) {
-                //               print('FD Cart Items ==>${fdController.itemsInCart.value}');
-                //             }
-                //
-                //           },
-                //         );
-                //       }),
-                // ),
-
-
                 Flexible(
-                  flex: 2,
+                  flex: 3,
                     child: Container(
-                      height: heightX*.2,
                       width: widthX,
                       decoration: const BoxDecoration(
                         color: Colors.white
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Divider(
                             color: Colors.amber,
@@ -161,14 +129,26 @@ class CartScreen extends GetView<CartController> {
                           ),
 
                           Padding(
+                            padding: const EdgeInsets.only(left: 20,top: 10),
+                            child: Text('Choose Payment Method',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: fontX*.020,
+                              ),
+                            ),
+                          ),
+
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ListTile(
                               onTap: (){
-                                Get.toNamed(paymentScreen);
+                                Get.offNamed(paymentScreen);
                               },
-                              title: Text('Choose Payment Method',style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: fontX*.020,
-                              ),),
+                              title: Obx(()=>
+                                  Text(controller.choosePayment.value,
+                                    style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: fontX*.020,
+                                  ),)
+                              ),
                               trailing: Icon(Icons.arrow_forward_ios,
                                 color: Colors.amber[600],),
                             ),
@@ -224,7 +204,7 @@ class CartScreen extends GetView<CartController> {
 
               fdController.itemsInCart.value = 0;
 
-              Get.off(()=> const HomeScreen());
+              Get.offNamed(homeScreen);
 
             },
             style: ElevatedButton.styleFrom(

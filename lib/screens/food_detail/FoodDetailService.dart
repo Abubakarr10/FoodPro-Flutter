@@ -19,6 +19,7 @@ class FoodDetailService extends GetxService{
 
   var favBox = getFavData().values.obs;
 
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -44,7 +45,6 @@ class FoodDetailService extends GetxService{
 
   bool checkFavItem(FoodModel foodData){
 
-
     if(isFavourite.value == true || favBox.value.contains(foodData)){
       if (kDebugMode) {print("Yes that's TRUE");}
       return true;
@@ -56,7 +56,6 @@ class FoodDetailService extends GetxService{
 
   // Function: To mark Item as Fav or remove from fav
   void actionFavList(FoodModel foodData){
-
     if(isFavourite.value == false && favBox.value.contains(foodData)){
       removeFromFavouriteList(foodData);
     } else{
@@ -95,7 +94,9 @@ class FoodDetailService extends GetxService{
     var favBox = getFavData();
 
     int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
-    await favBox.deleteAt(index);
+    await favBox.deleteAt(index).whenComplete((){
+
+    });
 
     Fluttertoast.showToast(msg: 'Remove Favourite 💔',
         backgroundColor: pureBlack,

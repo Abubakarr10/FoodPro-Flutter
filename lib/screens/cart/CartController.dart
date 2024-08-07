@@ -6,12 +6,13 @@ import 'package:get/get.dart';
 
 import '../../boxes/boxes.dart';
 
-class CartController extends GetxController{
+class CartController extends GetxService{
 
 
   // ignore: prefer_typing_uninitialized_variables
   var data;
   RxDouble totalAmount = RxDouble(0);
+  RxString choosePayment = 'Cash on Delivery'.obs;
 
   @override
   void onInit() {

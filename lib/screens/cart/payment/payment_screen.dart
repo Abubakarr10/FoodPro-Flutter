@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
+import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/screens/cart/payment/PaymentController.dart';
 import 'package:food_pro/screens/food_detail/widgets/card_title_widget.dart';
 import 'package:food_pro/widgets/add_button_widget.dart';
@@ -16,6 +17,19 @@ class PaymentScreen extends GetView<PaymentController> {
   Widget build(BuildContext context) {
     Get.put(PaymentController());
     return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+            onTap: (){
+              Get.offNamed(cartScreen);
+            },
+            child: Icon(Icons.arrow_back_ios_new,size: heightX*.03,)),
+        centerTitle: true,
+        title: Text('My Cards',
+        style: TextStyle(
+          fontWeight: FontWeight.w600, fontSize: fontX*.024,
+        ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -24,18 +38,13 @@ class PaymentScreen extends GetView<PaymentController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: heightX*.02,
-                ),
-                Text(
-                  "My Cards",
-                  style: TextStyle(fontSize: fontX*.020, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
                   height: heightX*.008,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
+                    // Image: Card Image
                     Container(
                       height: 180.0,
                       width: 300.0,
@@ -47,7 +56,7 @@ class PaymentScreen extends GetView<PaymentController> {
                         shape: BoxShape.rectangle,
                       ),
                     ),
-                    const AddButtonWidget()
+                    AddButtonWidget(onTap: () {  },)
                   ],
                 ),
                 SizedBox(
@@ -67,12 +76,16 @@ class PaymentScreen extends GetView<PaymentController> {
                       img: controller.cardLists.values.elementAt(index),
                       type: controller.cardLists.keys.elementAt(index),
                       onTap: () {
-                        if (kDebugMode) {print('Index => $index');}
                         controller.selectedCard.value = index;
+                        controller.cartController.choosePayment.value
+                        = controller.cardLists.keys.elementAt(index);
                       },
                       icon: controller.selectedCard.value == index?
-                      Icon(Icons.radio_button_checked, color: Colors.amber[400])
-                          : const Icon(Icons.radio_button_off, color: Colors.grey,),
+                      Icon(Icons.radio_button_checked,
+                          color: Colors.amber[400])
+                          :
+                      const Icon(Icons.radio_button_off,
+                        color: Colors.grey,),
 
                     ));
                   }),
@@ -88,7 +101,7 @@ class PaymentScreen extends GetView<PaymentController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
-            Get.back();
+            Get.offNamed(cartScreen);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width, 50), backgroundColor: Colors.amber,
@@ -97,7 +110,7 @@ class PaymentScreen extends GetView<PaymentController> {
             ),
           ),
           child: const Text(
-            "Add New",
+            "Done",
             style: TextStyle(fontSize: 16, color: Colors.black),
           ),
         ),

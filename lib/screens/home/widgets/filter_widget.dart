@@ -4,9 +4,10 @@ import 'package:food_pro/constant/app_colors.dart';
 class FilterWidget extends StatelessWidget {
   final VoidCallback filterOnTap;
   final TextEditingController searchController;
+  final Widget suffixIcon;
   final void Function(String) onChange;
    const FilterWidget({
-    super.key, required this.filterOnTap, required this.searchController, required this.onChange,
+    super.key, required this.filterOnTap, required this.searchController, required this.onChange, required this.suffixIcon,
   });
 
   @override
@@ -23,12 +24,7 @@ class FilterWidget extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                 hintText: "Search Food",
-                suffixIcon: searchController.value.text != ''? IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    searchController.clear();
-                  },
-                ) : const SizedBox(),
+                suffixIcon: suffixIcon,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(
                       10.0),

@@ -135,7 +135,15 @@ class HomeScreen extends GetView<HomeController> {
                   onChange: (value){
                     controller.searchController.text = value;
                     controller.searchResult();
-                  }),
+                  },
+                suffixIcon: controller.searchController.value.text != ''?
+                IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    controller.searchController.clear();
+                  },
+                ) : const SizedBox(),
+              ),
 
               SizedBox(height: heightX*.025,),
 
