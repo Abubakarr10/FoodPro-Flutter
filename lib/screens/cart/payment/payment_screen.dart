@@ -86,17 +86,15 @@ class PaymentScreen extends GetView<PaymentController> {
                           :
                       const Icon(Icons.radio_button_off,
                         color: Colors.grey,),
-
                     ));
                   }),
                 ),
-                
-
               ],
             ),
           ),
         ),
       ),
+
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ElevatedButton(

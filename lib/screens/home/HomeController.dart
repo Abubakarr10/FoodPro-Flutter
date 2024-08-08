@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_pro/boxes/boxes.dart';
 import 'package:food_pro/constant/filter_list.dart';
 import 'package:food_pro/screens/food_detail/FoodDetailService.dart';
+import 'package:food_pro/screens/food_detail/food_detail_screen.dart';
 import 'package:get/get.dart';
 
 import '../../constant/food_list.dart';
@@ -11,7 +12,7 @@ import '../../model/food_model.dart';
 
 class HomeController extends GetxController{
 
-  var fdController = Get.find<FoodDetailService>();
+ // FoodDetailService fdController = Get.find<FoodDetailService>();
 
   RxList filteredList = [].obs;
   late TextEditingController searchController;
@@ -23,7 +24,7 @@ class HomeController extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    fdController.onInit();
+  //  fdController.onInit();
     searchController = TextEditingController();
     super.onInit();
     filter();
@@ -43,17 +44,18 @@ class HomeController extends GetxController{
 
       if(currentSelection.value != 0 && currentSelection.value != 1){
         filteredList.value = [];
+        // Adding Filter: Desi, Chinese, Fast Food
         filteredList.addAll(filterFoodList(filterList.elementAt(currentSelection.value)));
       }else if(currentSelection.value == 1){
         filteredList.value = [];
         var favBox = getFavData().values.toList().cast<FoodModel>();
+        // Adding: Favourites
         filteredList.addAll(favBox);
 
         if (kDebugMode) {
-          print('Fav List => ${fdController.favFoodList}');
           print('Filter List => $filteredList');
         }
-      }else if(currentSelection.value == 2 || currentSelection.value == 3 || currentSelection.value == 4){
+      }else if(currentSelection.value == 0){
         filteredList.value = [];
         filteredList.addAll(foodList);
       }else{

@@ -28,3 +28,7 @@ const String timeIcon = 'assets/images/time.png';
 const String googleIcon = 'assets/images/google.png';
 const String appleIcon = 'assets/images/apple.png';
 const String codIcon = 'assets/images/cod.png';
+
+// GIF
+const String loadingFoodGif = 'assets/images/loading_food_icons.gif';
+const String doneOrderGif = 'assets/images/done_order.gif';

@@ -19,7 +19,6 @@ class FoodDetailService extends GetxService{
 
   var favBox = getFavData().values.obs;
 
-
   @override
   void onInit() {
     // TODO: implement onInit
@@ -44,21 +43,22 @@ class FoodDetailService extends GetxService{
 
 
   bool checkFavItem(FoodModel foodData){
-
     if(isFavourite.value == true || favBox.value.contains(foodData)){
       if (kDebugMode) {print("Yes that's TRUE");}
       return true;
     }else{
-      false;
+      if (kDebugMode) {print("Yes that's FALSE");}
+      return false;
     }
-    return false;
   }
 
   // Function: To mark Item as Fav or remove from fav
   void actionFavList(FoodModel foodData){
-    if(isFavourite.value == false && favBox.value.contains(foodData)){
+    if(isFavourite.value == true && favBox.value.contains(foodData)){
+      if (kDebugMode) {print("Yes! This item is contained");}
       removeFromFavouriteList(foodData);
     } else{
+      if (kDebugMode) {print("OOPs! This item is not contained");}
       addToFavouriteList(foodData);
     }
   }
@@ -83,7 +83,7 @@ class FoodDetailService extends GetxService{
     );
 
     if (kDebugMode) {
-      print('FoodList => ${getFavData().values.toList()}');
+      print('FoodList => ${getFavData().values.toList().length}');
     }
     }
   }
@@ -95,16 +95,14 @@ class FoodDetailService extends GetxService{
 
     int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
     await favBox.deleteAt(index).whenComplete((){
-
+      Fluttertoast.showToast(msg: 'Remove Favourite 💔',
+          backgroundColor: pureBlack,
+          textColor: mainColor,
+          gravity: ToastGravity.TOP
+      );
     });
 
-    Fluttertoast.showToast(msg: 'Remove Favourite 💔',
-        backgroundColor: pureBlack,
-        textColor: mainColor,
-        gravity: ToastGravity.TOP
-    );
-
-    if (kDebugMode) {print('FoodList => ${getFavData().values.toList()}');}
+    if (kDebugMode) {print('FoodList => ${getFavData().values.toList().length}');}
   }
 
   // >>>>>>>>>>>>>> Add To Cart <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

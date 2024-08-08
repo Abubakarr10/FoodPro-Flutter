@@ -6,7 +6,6 @@ import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:get/get.dart';
 
 import '../constant/app_size.dart';
-import 'home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,41 +27,62 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: widthX,
-          decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage(foodBgImage),
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.cover)
+      body: Stack(
+        children: [
+
+          Center(
+            child: Container(
+              width: widthX,
+              decoration: const BoxDecoration(
+                image: DecorationImage(image: AssetImage(foodBgImage),
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover)
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: heightX * 0.3,
+                    width: widthX * 0.6,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(60),
+                        image: const DecorationImage(image: AssetImage(foodLogoImage),
+                            fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high
+                        )
+                    ),
+                  ),
+                  SizedBox(height: heightX * 0.004,),
+                  Text('food pro'.toUpperCase(), style: TextStyle(
+                      letterSpacing: 0.6, color: pureBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontX*.046
+                  ),),
+                ],
+              ),
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: heightX * 0.3,
-                width: widthX * 0.6,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(60),
-                    image: const DecorationImage(image: AssetImage(foodLogoImage),
-                        fit: BoxFit.contain,
-                      filterQuality: FilterQuality.high
-                    )
+
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: ColorFiltered(
+                colorFilter: const ColorFilter.mode(mainColor, BlendMode.multiply),
+                child: Image.asset(loadingFoodGif,
+                height: heightX*.1,
+                width: widthX,
+                filterQuality: FilterQuality.high,
+                  fit: BoxFit.fitWidth,
                 ),
               ),
-              SizedBox(height: heightX * 0.004,),
-              Text('food pro'.toUpperCase(), style: TextStyle(
-                  letterSpacing: 0.6, color: pureBlack,
-                  fontWeight: FontWeight.bold,
-                  fontSize: fontX*.046
-              ),),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

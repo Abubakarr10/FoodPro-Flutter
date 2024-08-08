@@ -1,6 +1,7 @@
 import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/model/food_model.dart';
 import 'package:food_pro/screens/cart/cart_screen.dart';
+import 'package:food_pro/screens/cart/done_order/done_order_screen.dart';
 import 'package:food_pro/screens/cart/payment/payment_screen.dart';
 import 'package:food_pro/screens/food_detail/food_detail_screen.dart';
 import 'package:food_pro/screens/home/home_screen.dart';
@@ -23,6 +24,8 @@ final pages = [
   GetPage(name: cartScreen, page: () => const CartScreen()),
   // Payments
   GetPage(name: paymentScreen, page: () => const PaymentScreen()),
+  // Done Order
+  GetPage(name: doneOrderScreen, page: () => const DoneOrderScreen()),
 
 
 ];

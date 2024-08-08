@@ -26,41 +26,26 @@ class CartScreen extends GetView<CartController> {
     return SizedBox(
       child:  controller.data.length != 0.0?
       Scaffold(
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              size: heightX*.026,
+            ),
+          ),
+          title: Text('My Cart',style: TextStyle(
+              fontSize: fontX*.024, fontWeight: FontWeight.w600
+          ),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
               children: [
-
-                // App Bar>>
-                SizedBox(
-                  height: heightX*.003,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: heightX*.026,
-                        ),
-                      ),
-                      Text('My Cart',style: TextStyle(
-                        fontSize: fontX*.024, fontWeight: FontWeight.w600
-                      ),
-                      ),
-                      const Text(''),
-                    ],
-                  ),
-                ),
-                // <<App Bar
-
-                SizedBox(height: heightX*.003,),
 
                 Flexible(
                   flex: 8,
@@ -90,11 +75,6 @@ class CartScreen extends GetView<CartController> {
                                   }else {
                                     handleRemoveItem(controller, index);
                                     fdController.itemsInCart.value = box.length;
-
-                                    if (kDebugMode) {
-                                      print('FD Cart Items ==>${fdController
-                                          .itemsInCart.value}');
-                                    }
                                   }
                               },
                             );
@@ -112,6 +92,7 @@ class CartScreen extends GetView<CartController> {
                   ),
                 ),
 
+                // End: Bottom Widget
                 Flexible(
                   flex: 3,
                     child: Container(
@@ -128,6 +109,7 @@ class CartScreen extends GetView<CartController> {
                             thickness: 5,
                           ),
 
+                          // Text: Choose Payment Method
                           Padding(
                             padding: const EdgeInsets.only(left: 20,top: 10),
                             child: Text('Choose Payment Method',
@@ -137,6 +119,7 @@ class CartScreen extends GetView<CartController> {
                             ),
                           ),
 
+                          // ListTile: Payment Type | Icon: Forward arrow
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ListTile(
@@ -147,12 +130,14 @@ class CartScreen extends GetView<CartController> {
                                   Text(controller.choosePayment.value,
                                     style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: fontX*.020,
-                                  ),)
+                                  ),),
                               ),
                               trailing: Icon(Icons.arrow_forward_ios,
                                 color: Colors.amber[600],),
                             ),
                           ),
+
+                          // Text: Total Amount
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
@@ -184,17 +169,18 @@ class CartScreen extends GetView<CartController> {
                         ],
                       ),
                     ))
-
-
               ],
             ),
           ),
         ),
+
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10),
           child: ElevatedButton(
             onPressed: () {
+
+              Get.offNamed(doneOrderScreen);
 
               var box = getFoodData();
               box.clear();
@@ -203,8 +189,6 @@ class CartScreen extends GetView<CartController> {
                 position: SnackPosition.TOP);
 
               fdController.itemsInCart.value = 0;
-
-              Get.offNamed(homeScreen);
 
             },
             style: ElevatedButton.styleFrom(
