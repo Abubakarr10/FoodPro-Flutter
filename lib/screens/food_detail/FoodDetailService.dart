@@ -43,7 +43,12 @@ class FoodDetailService extends GetxService{
 
 
   bool checkFavItem(FoodModel foodData){
-    if(isFavourite.value == true || favBox.value.contains(foodData)){
+    var favBox = getFavData();
+    int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
+    if(index>=0){
+      isFavourite.value = true;
+    }
+    if(isFavourite.value == true && index >= 0){
       if (kDebugMode) {print("Yes that's TRUE");}
       return true;
     }else{
@@ -52,9 +57,17 @@ class FoodDetailService extends GetxService{
     }
   }
 
+  void clearFavData(){
+    var favBox = getFavData();
+    favBox.clear();
+  }
+
   // Function: To mark Item as Fav or remove from fav
   void actionFavList(FoodModel foodData){
-    if(isFavourite.value == true && favBox.value.contains(foodData)){
+    var favBox = getFavData();
+    int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
+
+    if(isFavourite.value == false && index>=0){
       if (kDebugMode) {print("Yes! This item is contained");}
       removeFromFavouriteList(foodData);
     } else{

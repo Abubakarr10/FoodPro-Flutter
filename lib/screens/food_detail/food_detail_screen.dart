@@ -82,7 +82,7 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                   size: heightX*.03,
                   color: Colors.amber,
                 ),
-              )
+              ),
           ),
           const SizedBox(width: 20,),
         ],
@@ -187,7 +187,18 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                           (int index){
                         return Text("🟡 ${foodData.ingredients.elementAt(index)}");
                       }),
-                )
+                ),
+
+                // ElevatedButton(
+                //     onPressed: (){
+                //       controller.clearFavData();
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: mainColor
+                //     ),
+                //     child: const Text('Clear Fav Data',
+                //     style: TextStyle(color: pureBlack),
+                //     ))
 
               ],
             ),
