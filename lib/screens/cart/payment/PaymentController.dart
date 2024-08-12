@@ -6,9 +6,10 @@ import 'package:get/get.dart';
 
 class PaymentController extends GetxController{
 
-  CartController cartController = Get.find();
   late int value;
   late RxInt selectedCard;
+
+  RxString choosePayment = 'COD'.obs;
 
   @override
   void onInit() {
@@ -28,7 +29,7 @@ class PaymentController extends GetxController{
 
   int selectedOption(){
     for(int x=0; x<cardLists.length; x++){
-      if(cardLists.keys.elementAt(x).contains(cartController.choosePayment.value)){
+      if(cardLists.keys.elementAt(x).contains(choosePayment.value)){
         return x;
       }
     }

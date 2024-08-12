@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
+import 'package:food_pro/screens/cart/cart_screen.dart';
 import '../../../model/food_model.dart';
 
 class FoodCardWidget extends StatelessWidget {
@@ -31,7 +33,7 @@ class FoodCardWidget extends StatelessWidget {
         child: Column(
           children: [
 
-
+            // Image: Food Image
             Container(
               height: heightX*.14,
               decoration: const BoxDecoration(
@@ -39,15 +41,17 @@ class FoodCardWidget extends StatelessWidget {
                   borderRadius:  BorderRadius.all(Radius.circular(12))
               ),
               width: MediaQuery.of(context).size.width,
-              child: Image.asset(foodData.image,fit: BoxFit.contain,),
-            ),
-            SizedBox(
-              height: heightX*.010,
-            ),
+              child: Image.asset(foodData.image,fit: BoxFit.contain,)
+            ).animate().slide(delay: 200.ms),
+            SizedBox(height: heightX*.010,),
+
+            // Text: Food Title
             Text(
               foodData.name,
               style:  TextStyle(fontSize: fontX*.018, fontWeight: FontWeight.w600),
             ),
+
+            // Text: Food Description
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Text(
@@ -58,6 +62,8 @@ class FoodCardWidget extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Icon | Text: Food Info
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,9 +84,9 @@ class FoodCardWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: heightX*.005,
-            ),
+
+            SizedBox(height: heightX*.005,),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,

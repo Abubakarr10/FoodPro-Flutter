@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/constant/images.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';

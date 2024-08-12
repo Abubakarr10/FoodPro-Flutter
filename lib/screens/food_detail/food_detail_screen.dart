@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
@@ -72,16 +73,24 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                     print('isFavourite => ${controller.isFavourite.value}');
                   }
                 },
-                child:  controller.checkFavItem(foodData) ==  true? Icon(
-                  Icons.favorite,
-                  size: heightX*.03,
-                  color: Colors.red,
+                child: Animate(
+                  onComplete: (_)=> controller.favBounce.value == false,
+                  effects: controller.favBounce.value == true? [
+                    ScaleEffect(delay: 400.ms, curve: Curves.bounceOut)
+                  ] : null,
+                  child: SizedBox(
+                    child: controller.checkFavItem(foodData) ==  true? Icon(
+                      Icons.favorite,
+                      size: heightX*.03,
+                      color: Colors.red,
+                    )
+                        : Icon(
+                      Icons.favorite_outline,
+                      size: heightX*.03,
+                      color: Colors.amber,
+                    ),
+                  ),
                 )
-                    : Icon(
-                  Icons.favorite_outline,
-                  size: heightX*.03,
-                  color: Colors.amber,
-                ),
               ),
           ),
           const SizedBox(width: 20,),
@@ -97,17 +106,34 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
               children: [
 
                 // Image: Food
-                Container(
-                  height: heightX*.25,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(foodData.image),fit: BoxFit.contain,
-                    filterQuality: FilterQuality.high
-                    )
+                InkWell(
+                  onTap: (){
+                    Get.offNamed(onlyImageScreen,arguments: foodData);
+                  },
+                  child: Hero(
+                    tag: 'FoodHero',
+                    child: Container(
+                      height: heightX*.25,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage(foodData.image),fit: BoxFit.contain,
+                        filterQuality: FilterQuality.high
+                        )
+                      ),
+                    ).animate().scale(delay: 200.ms).shake(delay: 400.ms),
                   ),
                 ),
 
-                // Custom Button: Increment
-                IncrementButtonWidget(controller: controller),
+                // Custom Button: Increment -/+
+                Obx(()=>
+                    Animate(
+                        onComplete: (_) => controller.checked.value = false,
+                        effects: controller.checked.value == true? [
+                          ShakeEffect(
+                              delay: 100.ms
+                          ),
+                        ] : null,
+                        child: IncrementButtonWidget(controller: controller)),
+                ),
 
                 // Text: Rs | Item Price
                 Row(
@@ -120,8 +146,11 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                       child: Text(
                         foodData.name,
                         style: TextStyle(
-                            fontSize: fontX*.026, fontWeight: FontWeight.w600),
-                      ),
+                            fontSize: fontX*.026, fontWeight: FontWeight.w600,
+                        color: mainColor
+                        ),
+                      ).animate().shimmer(delay: 400.ms)
+                          .tint(color: pureBlack,delay: 600.ms)
                     ),
 
                     // Text: Price
@@ -168,7 +197,7 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                 SizedBox(height: heightX*.005,),
 
                 // Text: Item Description
-                Text(foodData.description,),
+                Text(foodData.description,).animate().fadeIn(delay: 500.ms),
                 SizedBox(height: heightX*.015,),
 
                 // Text: Ingredients
@@ -185,20 +214,10 @@ class FoodDetailScreen extends GetView<FoodDetailService> {
                       foodData.ingredients.length,
                       growable: true,
                           (int index){
-                        return Text("🟡 ${foodData.ingredients.elementAt(index)}");
+                        return Text("🟡 ${foodData.ingredients.elementAt(index)}")
+                            .animate().fadeIn(delay: 100.ms).scaleX(delay: 200.ms);
                       }),
                 ),
-
-                // ElevatedButton(
-                //     onPressed: (){
-                //       controller.clearFavData();
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: mainColor
-                //     ),
-                //     child: const Text('Clear Fav Data',
-                //     style: TextStyle(color: pureBlack),
-                //     ))
 
               ],
             ),

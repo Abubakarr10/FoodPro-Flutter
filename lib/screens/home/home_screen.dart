@@ -1,9 +1,11 @@
 import 'package:chip_list/chip_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/filter_list.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
+import 'package:food_pro/screens/cart/cart_screen.dart';
 import 'package:food_pro/screens/food_detail/FoodDetailService.dart';
 import 'package:food_pro/screens/home/HomeController.dart';
 import 'package:food_pro/screens/home/widgets/filter_widget.dart';
@@ -121,8 +123,11 @@ class HomeScreen extends GetView<HomeController> {
               // Text: Food Pro
               Text(
                 "Food Pro",
-                style: TextStyle(fontSize: fontX*.026, fontWeight: FontWeight.bold),
-              ),
+                style: TextStyle(fontSize: fontX*.028, fontWeight: FontWeight.bold,
+                color: mainColor
+                ),
+              ).animate().shimmer(delay: 500.ms)
+                  .tint(color: pureBlack,delay: 700.ms),
 
                SizedBox(height: heightX*.025,),
 
@@ -176,6 +181,8 @@ class HomeScreen extends GetView<HomeController> {
                   crossAxisSpacing: 15,
                   children: [
                     Center(
+
+                      // Text: Title Text
                       child: controller.searchController.value.text == ''? Text(
                         "${filterList[controller.currentSelection.value]} Food Items",
                         style: const TextStyle(
@@ -196,7 +203,7 @@ class HomeScreen extends GetView<HomeController> {
                       );
                     }),
 
-                  ],
+                  ].animate()..fadeIn(delay: 300.ms).slide(delay: 350.ms),
                 ))
               ),
 

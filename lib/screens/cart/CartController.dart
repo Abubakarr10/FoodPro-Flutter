@@ -12,7 +12,7 @@ class CartController extends GetxService{
   // ignore: prefer_typing_uninitialized_variables
   var data;
   RxDouble totalAmount = RxDouble(0);
-  RxString choosePayment = 'Cash on Delivery'.obs;
+  RxString choosePayment = 'COD'.obs;
 
   @override
   void onInit() {

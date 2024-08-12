@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_size.dart';
+import 'package:food_pro/screens/cart/cart_screen.dart';
 
 class ItemCardWidget extends StatelessWidget {
   final String name,price,quantity,image;
@@ -38,7 +40,7 @@ class ItemCardWidget extends StatelessWidget {
                 children: [
                   Image.asset(image,height: heightX*.12,width: heightX*.12,
                   fit: BoxFit.contain,
-                  ),
+                  ).animate().shake(delay: 400.ms),
                   const SizedBox(width: 8,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +50,13 @@ class ItemCardWidget extends StatelessWidget {
                       Text(name,style: TextStyle(
                           fontSize: fontX*.022, fontWeight: FontWeight.w600
                       ),),
+
+                      Text("Tap to see Item's Details ",style: TextStyle(
+                          fontSize: fontX*.012,color: Colors.grey ,
+                          fontWeight: FontWeight.w600
+                      ),).animate().tint(color: Colors.white,
+                      delay: 2.seconds
+                      ),
 
                       // Text: Price
                       Row(

@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
@@ -37,38 +37,35 @@ class PaymentScreen extends GetView<PaymentController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: heightX*.008,
-                ),
+                SizedBox(height: heightX*.008,),
+
+                // Image: Card | Button: Add
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
 
                     // Image: Card Image
                     Container(
-                      height: 180.0,
-                      width: 300.0,
+                      height: heightX*.200,
+                      width: widthX*.65,
                       decoration:  const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(dummyMasterCardImage),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                         ),
                         shape: BoxShape.rectangle,
                       ),
-                    ),
+                    ).animate().shimmer(delay: 200.ms),
                     AddButtonWidget(onTap: () {  },)
                   ],
                 ),
-                SizedBox(
-                  height: heightX*.025,
-                ),
+                SizedBox(height: heightX*.025,),
+
                 const Text(
                   "Add New Cards",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                const SizedBox(height: 5,),
 
                 Column(
                   children: List.generate(controller.cardLists.length, (index){
@@ -77,8 +74,9 @@ class PaymentScreen extends GetView<PaymentController> {
                       type: controller.cardLists.keys.elementAt(index),
                       onTap: () {
                         controller.selectedCard.value = index;
-                        controller.cartController.choosePayment.value
+                        controller.choosePayment.value
                         = controller.cardLists.keys.elementAt(index);
+
                       },
                       icon: controller.selectedCard.value == index?
                       Icon(Icons.radio_button_checked,
@@ -99,7 +97,7 @@ class PaymentScreen extends GetView<PaymentController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ElevatedButton(
           onPressed: () {
-            Get.offNamed(cartScreen);
+            Get.offNamed(cartScreen,arguments: controller.choosePayment.value);
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(MediaQuery.of(context).size.width, 50), backgroundColor: Colors.amber,

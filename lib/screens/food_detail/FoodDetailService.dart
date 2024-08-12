@@ -13,7 +13,9 @@ import '../../model/food_model.dart';
 class FoodDetailService extends GetxService{
 
   RxBool isFavourite = false.obs;
+  RxBool favBounce = false.obs;
   RxInt qty = RxInt(1);
+  RxBool checked = RxBool(false);
   late RxInt itemsInCart = getFoodData().length.obs;
   RxList<FoodModel> favFoodList = RxList([]);
 
@@ -28,13 +30,15 @@ class FoodDetailService extends GetxService{
 
   void decrement(){
     if(qty.value > 1){
-      qty -= 1;
+      qty.value -= 1;
+      checked.value = false;
     }
   }
 
   void increment(){
     if(qty.value < 20) {
-      qty += 1;
+      qty.value += 1;
+      checked.value = true;
     }
   }
 
@@ -46,13 +50,15 @@ class FoodDetailService extends GetxService{
     var favBox = getFavData();
     int index = favBox.values.toList().indexWhere((element) => element.name == foodData.name);
     if(index>=0){
-      isFavourite.value = true;
+       isFavourite.value = true;
     }
     if(isFavourite.value == true && index >= 0){
       if (kDebugMode) {print("Yes that's TRUE");}
+      favBounce.value = true;
       return true;
     }else{
       if (kDebugMode) {print("Yes that's FALSE");}
+      favBounce.value = false;
       return false;
     }
   }
