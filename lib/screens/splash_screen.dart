@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/constant/images.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
@@ -75,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: ColorFiltered(
                 colorFilter: const ColorFilter.mode(mainColor, BlendMode.multiply),
                 child: Image.asset(loadingFoodGif,
-                height: heightX*.1,
+                height: heightX*.12,
                 width: widthX,
                 filterQuality: FilterQuality.high,
                   fit: BoxFit.fitWidth,

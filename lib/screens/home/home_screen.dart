@@ -5,7 +5,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/filter_list.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
-import 'package:food_pro/screens/cart/cart_screen.dart';
 import 'package:food_pro/screens/food_detail/FoodDetailService.dart';
 import 'package:food_pro/screens/home/HomeController.dart';
 import 'package:food_pro/screens/home/widgets/filter_widget.dart';

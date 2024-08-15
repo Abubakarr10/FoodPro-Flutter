@@ -30,6 +30,7 @@ class PaymentScreen extends GetView<PaymentController> {
         ),
         ),
       ),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -56,17 +57,21 @@ class PaymentScreen extends GetView<PaymentController> {
                         shape: BoxShape.rectangle,
                       ),
                     ).animate().shimmer(delay: 200.ms),
+
+                    // Button: Add Button
                     AddButtonWidget(onTap: () {  },)
                   ],
                 ),
                 SizedBox(height: heightX*.025,),
 
+                // Text Title: Add New Cards
                 const Text(
                   "Add New Cards",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 5,),
 
+                // List: List of Cards
                 Column(
                   children: List.generate(controller.cardLists.length, (index){
                     return Obx(()=> CardTileWidget(
@@ -93,6 +98,7 @@ class PaymentScreen extends GetView<PaymentController> {
         ),
       ),
 
+      // FAB: Done
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ElevatedButton(

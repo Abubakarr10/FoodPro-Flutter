@@ -1,7 +1,5 @@
-// ignore_for_file: file_names
-
+// ignore_for_file: file_name
 import 'package:food_pro/constant/images.dart';
-import 'package:food_pro/screens/cart/CartController.dart';
 import 'package:get/get.dart';
 
 class PaymentController extends GetxController{

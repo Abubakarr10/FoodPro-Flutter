@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_size.dart';
-import 'package:food_pro/screens/cart/cart_screen.dart';
 
 class ItemCardWidget extends StatelessWidget {
   final String name,price,quantity,image;

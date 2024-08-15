@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/constant/app_size.dart';
 import 'package:food_pro/constant/images.dart';
-import 'package:food_pro/screens/cart/cart_screen.dart';
 import '../../../model/food_model.dart';
 
 class FoodCardWidget extends StatelessWidget {

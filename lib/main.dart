@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_pro/constant/bindings/all_bindings.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/model/food_model.dart';
-import 'package:food_pro/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';

@@ -6,6 +6,8 @@ import 'package:food_pro/screens/cart/payment/payment_screen.dart';
 import 'package:food_pro/screens/food_detail/food_detail_screen.dart';
 import 'package:food_pro/screens/food_detail/only_image/only_image_screen.dart';
 import 'package:food_pro/screens/home/home_screen.dart';
+import 'package:food_pro/screens/practice/expansion_tile_widget.dart';
+import 'package:food_pro/screens/practice/sliver_aapBar_widget.dart';
 import 'package:food_pro/screens/splash_screen.dart';
 import 'package:get/get.dart';
 

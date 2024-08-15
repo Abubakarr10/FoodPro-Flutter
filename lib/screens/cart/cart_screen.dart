@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_pro/boxes/boxes.dart';
-import 'package:food_pro/constant/app_colors.dart';
 import 'package:food_pro/constant/images.dart';
 import 'package:food_pro/constant/routes/screen_names.dart';
 import 'package:food_pro/model/food_model.dart';
@@ -11,8 +9,6 @@ import 'package:food_pro/screens/cart/widget/defult_dialog_widget.dart';
 import 'package:food_pro/screens/cart/widget/empty_cart_widget.dart';
 import 'package:food_pro/screens/cart/widget/item_card_widget.dart';
 import 'package:food_pro/screens/food_detail/FoodDetailService.dart';
-import 'package:food_pro/screens/cart/payment/payment_screen.dart';
-import 'package:food_pro/screens/home/home_screen.dart';
 import 'package:food_pro/widgets/snackbar_widget.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -26,7 +22,7 @@ class CartScreen extends GetView<CartController> {
   Widget build(BuildContext context) {
     Get.put(CartController());
     FoodDetailService fdController = Get.find();
-    controller.choosePayment.value = Get.arguments ?? 'COD';
+    controller.choosePayment.value = Get.arguments ?? 'Cash on Delivery';
 
     return SizedBox(
       child:  controller.data.length != 0.0?
@@ -47,11 +43,13 @@ class CartScreen extends GetView<CartController> {
           ),
           ),
         ),
+
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(
               children: [
+
 
                 // Custom List: Cart Lists
                 Flexible(
